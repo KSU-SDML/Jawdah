@@ -1,6 +1,6 @@
 # Jawdah
 
-# Installing the tool
+# Installing the approch
 
 ## Requirements and dependencies:
 
