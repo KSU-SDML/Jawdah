@@ -36,6 +36,6 @@ git clone https://github.com/KSU-SDML/Jawdah
 
 3. Run the python file using 
 ```
-python score_and_label_updated.py
+python Jawdah.py
 ```
 4. Ultimately, you will get two CSV ouput files, one for score & another for labels. 
