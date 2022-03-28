@@ -38,4 +38,4 @@ git clone https://github.com/KSU-SDML/Jawdah
 ```
 python score_and_label_updated.py
 ```
-4. Ultimately you will get two CSV ouput files, one for score & the other for labels. 
+4. Ultimately, you will get two CSV ouput files, one for score & the other for labels. 
