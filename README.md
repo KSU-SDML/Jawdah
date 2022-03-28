@@ -30,7 +30,7 @@ https://github.com/casics/spiral
 
 1. Clone the tool repository:
 ```
-git clone https://github.com/KSU-SDML/Method-Naming-Standards/new/master/Jawdah/Tool
+git clone https://github.com/KSU-SDML/Jawdah
 ```
 2. Open the terminal and change the directory to the tool directory 
 
