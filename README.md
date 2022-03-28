@@ -8,7 +8,7 @@ To get a set of methods, use srcML
 ```
 https://www.srcml.org/#download
 ```
-Python 3.8.3
+You need to get at least Python 3.8.3 to run the python script
 ```
 https://www.python.org/downloads/
 ```
