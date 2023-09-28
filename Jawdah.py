@@ -3,18 +3,31 @@
 ########################################################## Importing libraries ##################################################
 import requests
 import spacy
+import sys
 import pandas as pd
 from itertools import chain
 from spiral import ronin
+import nltk
+import ssl
+
+try:
+    _create_unverified_https_context = ssl._create_unverified_context
+except AttributeError:
+    pass
+else:
+    ssl._create_default_https_context = _create_unverified_https_context
+
+nltk.download("wordnet")
+
 from nltk.corpus import wordnet
 # https://spacy.io/usage/linguistic-features
 nlp = spacy.load("en_core_web_sm")
 #################################################################################################################################
 
 ####################################################### Define global variables #################################################
-input_file_path = "./data5C#/OneName.csv" # Change this line to the name of the file that containes the method names. 
-output_file_path = "./data5C#/score_output_OneName.csv" # Name the output file that will contains the score & feedback as you want. 
-label_file_path = "./data5C#/labels_output_OneName.csv" # Name the output file that will contains the labels & feedback as you want. 
+input_file_path = sys.argv[1] # Change this line to the name of the file that containes the method names. 
+output_file_path = "scoreReport.csv" # Name the output file that will contains the score & feedback as you want. 
+label_file_path = "labelsReport.csv" # Name the output file that will contains the labels & feedback as you want. 
 
 # Non-Dictionary words (WordNet does not have them), but we are considering them as dictionary words
 new_words = ["url", "to", "html", "eol","utf8","unicode","runtime" ,"iterator","utf16", "sync" ,"matlab","with", "this","main", "delim","popup","init","deinit", "misc", "string", "json", "from", "attribut", "of","lexer","delimiter","delimiters","printf", "meta", "multi", "verilog", "api", "keywords", "prev", "reconfigure", "func","cmp","calc","rect", "info", "dev", "if", "config","param", "ascii", "for", "should", "ctrls", "invisibles", "expr", "mssql", "oscript", "metapost","into","scintilla", "recusively", "plugin","and", "uri","unset","int", "whitespace", "gif" , "dijkstra" , "jpeg" , "sqr" , "bmp" , "png" , "object3d", "iphone", "cannot", "xml", "else", "preprocessor", "buildable", "namespace", "sharepoint", "newline", "unindent", "bindable"] # This is the list the evluators agree they should be dictionary terms
@@ -195,7 +208,7 @@ def grammer_rule_func(wordnet_rule, prepositions, score=1):
         report["comment"] = "Can't check for the grammar structure standard because no word or letter in the name"
     return report
 
-def phrase_verb_rule(wordnet_rule, abbrevation_hastable, text, identifier_type, identifier_context, score=1, use_api=True):
+def phrase_verb_rule(wordnet_rule, abbrevation_hastable, text, identifier_type, identifier_context, score=1, use_api=False):
 
     report = {}
     temp = []
@@ -314,9 +327,9 @@ def score(phrases_df):
     new_ls = []
     label_scores = []
     for _, row in phrases_df.iterrows():
-        identifier_type = row[0]
-        phrase = row[1]
-        identifier_context = row[2]
+        identifier_type = row[1] # method context
+        phrase = row[0] # method name
+        identifier_context = row[1] # method context
 
         if phrase[-2:] == '()':
             phrase = phrase[:-2]
