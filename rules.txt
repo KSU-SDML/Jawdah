@@ -1,0 +1,66 @@
+Combines identifier naming rules from:
+https://conferences.computer.org/icsmepub/pdfs/SCAM2023-ZPjMN85ZMA4HQwAsawf3H/050600a131/050600a131.pdf 
+(Rule ID specified in parenthesis)
+
+https://www.cs.kent.edu/~jmaletic/papers/ICPC2022.pdf
+~ specifies that similar rule was mentioned in this paper
+
+Look into:
+https://hilton.org.uk/presentations/naming-guidelines
+
+? - what does this mean
+* - further clarification/is this programmable
+
+# Syntax
+- Maintain consistent naming style (pascal, snake, camel) (~1)
+- Use dictionary words and no (uncommon) abbreviations (~2)
+- Expand single-letter names/abbreviations (~3)
+- Only use one underscore at a time (4)
+- No leading or trailing underscores (5)
+* Name Constant values (descriptive) (6) - too general, need Constant specific rules
+- Limit name character length to 20 (7)
+- Max word count for identifier (will vary with identifier type) (~8) (Jawdah says < 7 words, SCAM says < 5)
+? Qualify values with suffixes (9) 
+
+# Vocabulary
+* Describe meaning (10)
+* Be precise (11)
+* Use standard language (12)
+? Use a large vocabulary (13)
+- Omit type information (when possible, ex Classes can represent types) (14)
+
+
+# Data Type
+- Use singular names for values (15)
+- Use plural names for collections (arrays, lists, etc) (16)
+- Use Boolean variable names that imply true/false (17)
+- Use positive Boolean names (18)
+* Attribute name and type should be consistent (19)
+
+# Methods/Functions
+- Use verb-phrase name (~20)
+- Don't use 'get', 'is', 'has' prefixes for methods with side-effects (21)
+- Only use 'get' prefix for accessors that return a value (22)
+- Only use 'is' and 'has' prefixes for Boolean field accessors (23)
+- Only use 'set' prefix for field accessors that don’t return a value (24)
+- Only use transformation verbs for methods that return a transformed value (25)
+- Expecting and getting single instance (26) 
+- Expecting and getting a collection (27)
+- Method name and return type should not contradict (28)
+
+- Grammar rule: name cannot start or end with preposition, incomplete phrases are not advisable (even if params/args complete phrase)
+- A verb must be present within the method name
+
+- Certain special words should not start a var name (i.e. ‘should’, ‘could’, etc.)
+
+
+# Classes
+
+
+# Declarations
+
+
+# Attributes
+
+
+# Parameters
