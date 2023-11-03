@@ -5,11 +5,12 @@ https://conferences.computer.org/icsmepub/pdfs/SCAM2023-ZPjMN85ZMA4HQwAsawf3H/05
 https://www.cs.kent.edu/~jmaletic/papers/ICPC2022.pdf
 ~ specifies that similar rule was mentioned in this paper
 
-Look into:
 https://hilton.org.uk/presentations/naming-guidelines
 
 ? - what does this mean
 * - further clarification/is this programmable
+
+
 
 # Syntax
 - Maintain consistent naming style (pascal, snake, camel) (~1)
@@ -20,14 +21,17 @@ https://hilton.org.uk/presentations/naming-guidelines
 * Name Constant values (descriptive) (6) - too general, need Constant specific rules
 - Limit name character length to 20 (7)
 - Max word count for identifier (will vary with identifier type) (~8) (Jawdah says < 7 words, SCAM says < 5)
-? Qualify values with suffixes (9) 
+- Qualify values with suffixes (9) 
+
+
 
 # Vocabulary
 * Describe meaning (10)
 * Be precise (11)
 * Use standard language (12)
-? Use a large vocabulary (13)
+- Use a large vocabulary (13)
 - Omit type information (when possible, ex Classes can represent types) (14)
+
 
 
 # Data Type
@@ -36,6 +40,8 @@ https://hilton.org.uk/presentations/naming-guidelines
 - Use Boolean variable names that imply true/false (17)
 - Use positive Boolean names (18)
 * Attribute name and type should be consistent (19)
+
+
 
 # Methods/Functions
 - Use verb-phrase name (~20)
@@ -54,7 +60,15 @@ https://hilton.org.uk/presentations/naming-guidelines
 - Certain special words should not start a var name (i.e. ‘should’, ‘could’, etc.)
 
 
+
 # Classes
+
+- Name class with a noun phrase
+
+- Name must allow all possible states
+  (Class names that model 2+ different states, ensure class name encapsulates all states)
+
+- Use name consistent with possible values
 
 
 # Declarations
