@@ -6,6 +6,24 @@
 #include <regex>
 #include <map>
 
+
+// Syntax
+
+bool hasConsecutiveUnderscores(const std::string& str) {
+    for (int i = 0; i < str.length() - 1; ++i) {
+        if (str[i] == '_' && str[i + 1] == '_') {
+            return true;
+        }
+    }
+    return false;
+}
+
+// Vocabulary
+
+
+// Data Type
+
+
 std::vector<std::string> loadFile(const std::string& filePath) {
     std::vector<std::string> phrases;
 
@@ -26,13 +44,35 @@ std::vector<std::string> loadFile(const std::string& filePath) {
 }
 
 
+// 
+void phraseScore(std::string& name, std::string& context) {
+
+    // underscore rule (4)
+    if (hasConsecutiveUnderscores(name)) std::cout << name << ", CONSEC UNDERSCORES\n";
+
+}
+
+
 std::pair<std::vector<std::string>, std::vector<std::string> > score(const std::vector<std::string>& phrases) {
     std::vector<std::string> output;
     std::vector<std::string> labelScores;
 
     // Loop through each row in the input csv
+    for (const std::string& entry : phrases) {
+        std::stringstream ss(entry);
+        std::string name, context, restOfPhrase;
+
         // assign type, name, context vars
+        std::getline(ss, name, ',');
+        std::getline(ss, context, ',');
+        ss >> restOfPhrase;
+        
         // send off each line to 'phrase score' function, return report
+        phraseScore(name, context);
+    
+    }
+    
+   
         // next add the score label ("good" "bad" etc.)
     //return report
 
@@ -48,10 +88,9 @@ int main() {
     // Load the input file
     std::vector<std::string> phrases = loadFile(inputFilePath);
 
-    // // Score the phrases
-    // std::pair<std::vector<std::string>, std::vector<std::string>> result = score(phrases);
+    // Score the phrases
+    std::pair<std::vector<std::string>, std::vector<std::string> > result = score(phrases);
     std::vector<std::string> output = phrases;
-    // std::vector<std::string> labelScores = result.second;
 
     // Write the output to files
     std::ofstream outputFile(outputFilePath);
