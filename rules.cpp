@@ -7,44 +7,6 @@
 #include <map>
 
 
-// Syntax
-
-bool hasConsecutiveUnderscores(const std::string& str) {
-    for (int i = 0; i < str.length() - 1; ++i) {
-        if (str[i] == '_' && str[i + 1] == '_') {
-            return true;
-        }
-    }
-    return false;
-}
-
-// Vocabulary
-
-
-// Data Type
-
-
-std::vector<std::string> loadFile(const std::string& filePath) {
-    std::vector<std::string> phrases;
-
-    // Open the file
-    std::ifstream inputFile(filePath);
-    if (!inputFile.is_open()) {
-        std::cerr << "Error: Could not open input file." << std::endl;
-        return phrases;
-    }
-
-    std::string line;
-    while (std::getline(inputFile, line)) {
-        phrases.push_back(line);
-    }
-
-    inputFile.close();
-    return phrases;
-}
-
-// report data sctructure needs:
-// numerical score, comments on naming violations
 struct Report {
     std::string name;
     int score = 10;
@@ -52,17 +14,65 @@ struct Report {
     std::string comments = "";
 };
 
-// 
+
+// Syntax
+
+void hasConsecutiveUnderscores(const std::string& str, Report& report) {
+    for (int i = 0; i < str.length() - 1; ++i) {
+        if (str[i] == '_' && str[i + 1] == '_') {
+            report.score -= 1;
+            report.comments += "remove consecutive underscores,";
+        }
+    }
+}
+
+void hasLeadingTrailingUnderscore(const std::string& str, Report& report) {
+    if ((str[0] == '_') || (str[str.length() - 1] == '_')) {
+        report.score -= 1;
+        report.comments += "remove leading/trailing underscores,";
+    }
+}
+
+
+
+// Vocabulary
+
+
+// Data Type
+
+
+// reads in each line of identifier information 
+std::vector<std::string> loadFile(const std::string& filePath) {
+    
+    std::vector<std::string> lines;
+
+    // Open the file
+    std::ifstream inputFile(filePath);
+    if (!inputFile.is_open()) {
+        std::cerr << "Error: Could not open input file." << std::endl;
+        return lines;
+    }
+
+    std::string line;
+    while (std::getline(inputFile, line)) {
+        lines.push_back(line);
+    }
+
+    inputFile.close();
+    return lines;
+}
+
+// Checks identifier for each rule
 Report phraseScore(std::string& name, std::string& context) {
 
     Report phraseReport;    
     phraseReport.name = name;
 
     // underscore rule (4)
-    if (hasConsecutiveUnderscores(name)){
-        phraseReport.score -= 1;
-        phraseReport.comments += "remove consecutive underscores,";
-    } 
+    hasConsecutiveUnderscores(name, phraseReport);
+
+    // leading/Trailing rule (5)
+    hasLeadingTrailingUnderscore(name, phraseReport);
 
     return phraseReport;
 }
@@ -78,30 +88,31 @@ void labelScore(Report& report) {
 
 
 std::vector<Report> score(const std::vector<std::string>& phrases) {
-    std::vector<Report> output;
-    // std::vector<std::string> labelScores;
+    
+    // Holds report for each identifier
+    std::vector<Report> reports;
 
     // Loop through each row in the input csv
     for (const std::string& entry : phrases) {
         std::stringstream ss(entry);
         std::string name, context, restOfPhrase;
 
-        // assign type, name, context vars
+        // assign name, context vars
         std::getline(ss, name, ',');
         std::getline(ss, context, ',');
         ss >> restOfPhrase;
         
-        // send off each line to 'phrase score' function, return report
+        // send off each line to be scored, return report
         Report identifierReport =  phraseScore(name, context);
-        output.push_back(identifierReport);
+        reports.push_back(identifierReport);
     }
     
     // next add the score label ("good" "bad" etc.)
-    for (Report& report : output) {
+    for (Report& report : reports) {
         labelScore(report);
     }
 
-    return output;
+    return reports;
 }
 
 int main() {
