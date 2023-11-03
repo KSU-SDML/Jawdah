@@ -43,19 +43,43 @@ std::vector<std::string> loadFile(const std::string& filePath) {
     return phrases;
 }
 
+// report data sctructure needs:
+// numerical score, comments on naming violations
+struct Report {
+    std::string name;
+    int score = 10;
+    std::string label;
+    std::string comments = "";
+};
 
 // 
-void phraseScore(std::string& name, std::string& context) {
+Report phraseScore(std::string& name, std::string& context) {
+
+    Report phraseReport;    
+    phraseReport.name = name;
 
     // underscore rule (4)
-    if (hasConsecutiveUnderscores(name)) std::cout << name << ", CONSEC UNDERSCORES\n";
+    if (hasConsecutiveUnderscores(name)){
+        phraseReport.score -= 1;
+        phraseReport.comments += "remove consecutive underscores,";
+    } 
 
+    return phraseReport;
+}
+
+void labelScore(Report& report) {
+    
+    if (report.score < 10) {
+        report.label = "Fair Method Name";
+    } else {
+        report.label = "Excellent Method Name";
+    }
 }
 
 
-std::pair<std::vector<std::string>, std::vector<std::string> > score(const std::vector<std::string>& phrases) {
-    std::vector<std::string> output;
-    std::vector<std::string> labelScores;
+std::vector<Report> score(const std::vector<std::string>& phrases) {
+    std::vector<Report> output;
+    // std::vector<std::string> labelScores;
 
     // Loop through each row in the input csv
     for (const std::string& entry : phrases) {
@@ -68,16 +92,16 @@ std::pair<std::vector<std::string>, std::vector<std::string> > score(const std::
         ss >> restOfPhrase;
         
         // send off each line to 'phrase score' function, return report
-        phraseScore(name, context);
-    
+        Report identifierReport =  phraseScore(name, context);
+        output.push_back(identifierReport);
     }
     
-   
-        // next add the score label ("good" "bad" etc.)
-    //return report
+    // next add the score label ("good" "bad" etc.)
+    for (Report& report : output) {
+        labelScore(report);
+    }
 
-
-    return std::make_pair(output, labelScores);
+    return output;
 }
 
 int main() {
@@ -85,19 +109,18 @@ int main() {
     const std::string outputFilePath = "output.txt";
     const std::string labelFilePath = "labels.txt";
 
-    // Load the input file
+    // Load the input file line-by-line
     std::vector<std::string> phrases = loadFile(inputFilePath);
 
     // Score the phrases
-    std::pair<std::vector<std::string>, std::vector<std::string> > result = score(phrases);
-    std::vector<std::string> output = phrases;
+    std::vector<Report> result = score(phrases);
 
-    // Write the output to files
+    // Write the output to file
     std::ofstream outputFile(outputFilePath);
     if (outputFile.is_open()) {
-        outputFile << "Name,Score,Comments" << std::endl;
-        for (const std::string& line : output) {
-            outputFile << line << std::endl;
+        outputFile << "Name,Label,Comments" << std::endl;
+        for (const Report& report : result) {
+            outputFile << report.name << "," << report.label << "," << report.comments << std::endl;
         }
         outputFile.close();
     } else {
