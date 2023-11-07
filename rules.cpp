@@ -15,7 +15,7 @@ struct Report {
 };
 
 
-// Syntax
+// Syntax Rules
 
 void hasConsecutiveUnderscores(const std::string& str, Report& report) {
     for (int i = 0; i < str.length() - 1; ++i) {
@@ -35,10 +35,10 @@ void hasLeadingTrailingUnderscore(const std::string& str, Report& report) {
 
 
 
-// Vocabulary
+// Vocabulary Rules
 
 
-// Data Type
+// Data Type Rules
 
 
 // reads in each line of identifier information 
