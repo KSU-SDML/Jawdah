@@ -33,7 +33,12 @@ void hasLeadingTrailingUnderscore(const std::string& str, Report& report) {
     }
 }
 
-
+void maxCharacters(const std::string& str, Report& report) {
+    if (str.length() > 20) {
+        report.score -= 1;
+        report.comments += "name length must be <= 20 characters,";
+    }
+}
 
 // Vocabulary Rules
 
@@ -73,6 +78,9 @@ Report phraseScore(std::string& name, std::string& context) {
 
     // leading/Trailing rule (5)
     hasLeadingTrailingUnderscore(name, phraseReport);
+
+    // character limit rule (7)
+    maxCharacters(name, phraseReport);
 
     return phraseReport;
 }
