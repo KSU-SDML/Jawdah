@@ -134,7 +134,6 @@ void singleLetterRule(const std::string& str, const std::string& taggedWords, Re
     }
 }
 
-
 void hasConsecutiveUnderscores(const std::string& str, Report& report) {
     for (int i = 0; i < str.length() - 1; ++i) {
         if (str[i] == '_' && str[i + 1] == '_') {
@@ -155,6 +154,20 @@ void maxCharacters(const std::string& str, Report& report) {
     if (str.length() > 20) {
         report.score -= 1;
         report.comments += "name length must be <= 20 characters,";
+    }
+}
+
+void maxWords(const std::string& taggedWords, Report& report) {
+    
+    int numWords = 1;
+    const int MAX_WORDS = 7;
+    for (int i = 0; i < taggedWords.length() - 1; ++i) {
+        if (taggedWords[i] == ',') ++numWords;
+    }
+    
+    if (numWords >= MAX_WORDS) {
+        report.score -= 1;
+        report.comments += "name must be < 7 words long";
     }
 }
 
@@ -206,6 +219,9 @@ Report phraseScore(std::string& name, std::string& context, std::string& taggedW
     // character limit rule (7)
     maxCharacters(name, phraseReport);
 
+    // max word rule (8)
+    maxWords(taggedWords, phraseReport);
+
     return phraseReport;
 }
 
@@ -238,7 +254,7 @@ std::vector<Report> score(const std::vector<std::string>& phrases) {
         std::getline(ss, fileName, ',');
         std::getline(ss, location, ',');
         ss >> taggedWords;
-        
+
         // send off each line to be scored, return report
         Report identifierReport =  phraseScore(name, context, taggedWords);
         reports.push_back(identifierReport);
