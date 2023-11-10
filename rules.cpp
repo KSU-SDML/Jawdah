@@ -56,7 +56,16 @@ bool followCamel(const std::string& str) {
 }
 
 bool followKebab(const std::string& str) {
-    return false;
+    
+    if ((str[0] == '-') || (str[str.length() - 1] == '-')) return false;
+
+    int consecutiveDash = 0;
+    for (int i = 1; i < str.length() - 2; ++i) {
+        if (str[i] == '-') ++consecutiveDash;
+        else consecutiveDash = 0;
+        if (consecutiveDash >= 2) return false;
+    }
+    return true;
 }
 
 bool followUnderscore(const std::string& str) {
