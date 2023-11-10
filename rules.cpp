@@ -20,7 +20,7 @@ struct Report {
 
 // Naming Style Methods
 bool followPascal(const std::string& str) {
-
+    
     // must start with capital letter
     if (islower(str[0])) return false;
 
@@ -38,7 +38,7 @@ bool followPascal(const std::string& str) {
 }
 
 bool followCamel(const std::string& str) {
-    
+
     //must start with lowercase letter
     if (isupper(str[0])) return false;
 
@@ -60,16 +60,33 @@ bool followKebab(const std::string& str) {
     if ((str[0] == '-') || (str[str.length() - 1] == '-')) return false;
 
     int consecutiveDash = 0;
+    bool containsDash = false;
     for (int i = 1; i < str.length() - 2; ++i) {
         if (str[i] == '-') ++consecutiveDash;
         else consecutiveDash = 0;
+        if (consecutiveDash >= 1) containsDash = true;
         if (consecutiveDash >= 2) return false;
     }
-    return true;
+    
+    if (containsDash) return true;
+    else return false;
 }
 
 bool followUnderscore(const std::string& str) {
-    return false;
+    
+    if ((str[0] == '_') || (str[str.length() - 1] == '_')) return false;
+
+    int consecutiveUnderscore = 0;
+    bool containsUnderscore = false;
+    for (int i = 1; i < str.length() - 2; ++i) {
+        if (str[i] == '_') ++consecutiveUnderscore;
+        else consecutiveUnderscore = 0;
+        if (consecutiveUnderscore >= 1) containsUnderscore = true;
+        if (consecutiveUnderscore >= 2) return false;
+    }
+
+    if (containsUnderscore) return true;
+    else return false;
 }
 
 void followStyle(const std::string& str, Report& report) {
