@@ -19,7 +19,7 @@ $ - implemented
 $ Only use one underscore at a time (4)
 $ No leading or trailing underscores (5)
 * Name Constant values (descriptive) (6) - too general, need Constant specific rules
-- Limit name character length to 20 (7)
+$ Limit name character length to 20 (7)
 - Max word count for identifier (will vary with identifier type) (~8) (Jawdah says < 7 words, SCAM says < 5)
 - Qualify values with suffixes (9) 
 

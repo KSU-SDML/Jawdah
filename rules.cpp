@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <regex>
 #include <map>
+#include <cctype>
 
 
 struct Report {
@@ -16,6 +17,38 @@ struct Report {
 
 
 // Syntax Rules
+
+// Naming Style Methods
+bool followPascal(const std::string& str) {
+    int consecutiveUpper = 0;
+    for (int i = 0; i < str.length() - 1; ++i) {
+        if (isupper(str[i])) ++consecutiveUpper;
+        else consecutiveUpper = 0;
+        if (consecutiveUpper >= 2) return false;
+    }
+    return true;
+}
+
+bool followCamel(const std::string& str) {
+    return false;
+}
+
+bool followKebab(const std::string& str) {
+    return false;
+}
+
+bool followUnderscore(const std::string& str) {
+    return false;
+}
+
+void followStyle(const std::string& str, Report& report) {
+    if (followPascal(str) || followUnderscore(str) || followKebab(str) || followCamel(str)) {
+        
+    } else {
+        report.score -= 1;
+        report.comments += "Follow a naming style,";
+    }
+}
 
 void hasConsecutiveUnderscores(const std::string& str, Report& report) {
     for (int i = 0; i < str.length() - 1; ++i) {
@@ -72,6 +105,9 @@ Report phraseScore(std::string& name, std::string& context) {
 
     Report phraseReport;    
     phraseReport.name = name;
+
+    // naming style rule (1)
+    followStyle(name, phraseReport);
 
     // underscore rule (4)
     hasConsecutiveUnderscores(name, phraseReport);
