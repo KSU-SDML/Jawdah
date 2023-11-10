@@ -20,8 +20,12 @@ struct Report {
 
 // Naming Style Methods
 bool followPascal(const std::string& str) {
+
+    // must start with capital letter
+    if (islower(str[0])) return false;
+
     int consecutiveUpper = 0;
-    for (int i = 0; i < str.length() - 1; ++i) {
+    for (int i = 1; i < str.length() - 1; ++i) {
         if (std::isalpha(str[i])) {
             if (isupper(str[i])) ++consecutiveUpper;
             else consecutiveUpper = 0;
@@ -34,7 +38,21 @@ bool followPascal(const std::string& str) {
 }
 
 bool followCamel(const std::string& str) {
-    return false;
+    
+    //must start with lowercase letter
+    if (isupper(str[0])) return false;
+
+    int consecutiveUpper = 0;
+    for (int i = 1; i < str.length() - 1; ++i) {
+        if (std::isalpha(str[i])) {
+            if (isupper(str[i])) ++consecutiveUpper;
+            else consecutiveUpper = 0;
+            if (consecutiveUpper >= 2) return false;
+        } else {
+            return false;
+        }
+    }
+    return true;
 }
 
 bool followKebab(const std::string& str) {
