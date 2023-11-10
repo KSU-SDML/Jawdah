@@ -22,9 +22,13 @@ struct Report {
 bool followPascal(const std::string& str) {
     int consecutiveUpper = 0;
     for (int i = 0; i < str.length() - 1; ++i) {
-        if (isupper(str[i])) ++consecutiveUpper;
-        else consecutiveUpper = 0;
-        if (consecutiveUpper >= 2) return false;
+        if (std::isalpha(str[i])) {
+            if (isupper(str[i])) ++consecutiveUpper;
+            else consecutiveUpper = 0;
+            if (consecutiveUpper >= 2) return false;
+        } else {
+            return false;
+        }
     }
     return true;
 }
