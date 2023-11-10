@@ -13,9 +13,9 @@ $ - implemented
 
 
 # Syntax
-- Maintain consistent naming style (pascal, snake, camel) (~1)
+$ Maintain consistent naming style (pascal, snake, camel) (~1)
 - Use dictionary words and no (uncommon) abbreviations (~2)
-- Expand single-letter names/abbreviations (~3)
+$ Expand single-letter names/abbreviations (~3)
 $ Only use one underscore at a time (4)
 $ No leading or trailing underscores (5)
 * Name Constant values (descriptive) (6) - too general, need Constant specific rules

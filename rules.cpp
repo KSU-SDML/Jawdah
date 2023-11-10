@@ -98,6 +98,43 @@ void followStyle(const std::string& str, Report& report) {
     }
 }
 
+void singleLetterRule(const std::string& str, const std::string& taggedWords, Report& report) {
+    // need to anlayze each split word
+    std::string splitWords;
+    if (taggedWords[0] == '\"') 
+        splitWords = taggedWords.substr(1, taggedWords.length()-2);
+    else {
+        splitWords = taggedWords;
+        // this means it is a single word
+        // check if length > 1
+    }
+
+    std::vector<std::string> words;
+    // split into individual words, disregard tags
+    int start = 0, end = 0;
+    while (end <= splitWords.length() - 1) {
+        if (splitWords[end] != '|' && splitWords[end] != ',') ++end;
+        else if (splitWords[end] == ',') {
+            ++end;
+            start = end;
+        }
+        else {
+            words.push_back(splitWords.substr(start, end - start));
+            // now reassign start and end after comma
+            ++end;
+            start = end;
+        }
+    }
+    
+    for (const auto& str : words) {
+        if (str.length() == 1) {
+            report.score -= 1;
+            report.comments += "name should not contain single letter \'" + str + "\'";
+        }
+    }
+}
+
+
 void hasConsecutiveUnderscores(const std::string& str, Report& report) {
     for (int i = 0; i < str.length() - 1; ++i) {
         if (str[i] == '_' && str[i + 1] == '_') {
@@ -149,13 +186,16 @@ std::vector<std::string> loadFile(const std::string& filePath) {
 }
 
 // Checks identifier for each rule
-Report phraseScore(std::string& name, std::string& context) {
+Report phraseScore(std::string& name, std::string& context, std::string& taggedWords) {
 
     Report phraseReport;    
     phraseReport.name = name;
 
     // naming style rule (1)
     followStyle(name, phraseReport);
+
+    // single-letter name rule (3)
+    singleLetterRule(name, taggedWords, phraseReport);
 
     // underscore rule (4)
     hasConsecutiveUnderscores(name, phraseReport);
@@ -171,11 +211,14 @@ Report phraseScore(std::string& name, std::string& context) {
 
 void labelScore(Report& report) {
     
-    if (report.score < 10) {
+    if (report.score < 8) 
+        report.label = "Poor Method Name";
+    else if (report.score < 9) 
+        report.label = "Okay Method Name";
+    else if (report.score < 10) 
         report.label = "Fair Method Name";
-    } else {
+    else 
         report.label = "Excellent Method Name";
-    }
 }
 
 
@@ -187,15 +230,17 @@ std::vector<Report> score(const std::vector<std::string>& phrases) {
     // Loop through each row in the input csv
     for (const std::string& entry : phrases) {
         std::stringstream ss(entry);
-        std::string name, context, restOfPhrase;
+        std::string name, context, fileName, location, taggedWords;
 
         // assign name, context vars
         std::getline(ss, name, ',');
         std::getline(ss, context, ',');
-        ss >> restOfPhrase;
+        std::getline(ss, fileName, ',');
+        std::getline(ss, location, ',');
+        ss >> taggedWords;
         
         // send off each line to be scored, return report
-        Report identifierReport =  phraseScore(name, context);
+        Report identifierReport =  phraseScore(name, context, taggedWords);
         reports.push_back(identifierReport);
     }
     
